@@ -10,3 +10,17 @@ Details:
 
  * [Bublé issue: JSX Only?](https://github.com/bublejs/buble/issues/213)
  * [Pull Request with the changes](https://github.com/datavis-tech/buble-jsx-only/pull/3)
+
+## Fork scope, validation, and history
+
+This is a deliberately reduced **Bublé fork** for JSX transformation. It does not aim to provide the full original Bublé ES6 transformation feature set. Original upstream [Bublé](https://github.com/bublejs/buble) attribution and [`CHANGELOG.md`](CHANGELOG.md) are retained.
+
+```bash
+npm ci
+npm run build
+npm test
+npm run lint
+```
+
+The `npm test` lifecycle invokes `pretest` (a build) and then the NYC/Mocha test suite. The build uses Rollup; `src/`, `test/` and `bin/` contain the implementation, cases and CLI respectively. Some scripts use POSIX shell utilities and historical bundler dependencies. Inspect them before invoking `test:full` or `test:bundlers`; do not assume legacy browser tooling is compatible with modern bundlers without an explicit integration test.
+
