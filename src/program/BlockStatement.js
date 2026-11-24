@@ -1,13 +1,5 @@
 import Node from './Node.js';
 import Scope from './Scope.js';
-import destructure from '../utils/destructure.js';
-
-function isUseStrict(node) {
-	if (!node) return false;
-	if (node.type !== 'ExpressionStatement') return false;
-	if (node.expression.type !== 'Literal') return false;
-	return node.expression.value === 'use strict';
-}
 
 export default class BlockStatement extends Node {
 	createScope() {
@@ -50,7 +42,7 @@ export default class BlockStatement extends Node {
 		return this.parent.findLexicalBoundary();
 	}
 
-	findScope(functionScope) {
+	findScope() {
 		return this.scope;
 	}
 

@@ -1,12 +1,9 @@
 import { Parser } from 'acorn';
 import acornJsx from 'acorn-jsx';
 import Program from './program/Program.js';
-import { features, matrix } from './support.js';
 import getSnippet from './utils/getSnippet.js';
 
 const parser = Parser.extend(acornJsx());
-
-const dangerousTransforms = ['dangerousTaggedTemplateString', 'dangerousForOf'];
 
 export function transform(source, options = {}) {
 	let ast;

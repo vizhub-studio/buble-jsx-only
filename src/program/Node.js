@@ -1,3 +1,22 @@
+// Serialize AST nodes for debugging without circular parent/program references.
+function toJSON(node) {
+	if (node === null || typeof node !== 'object') return node;
+	const obj = {};
+
+	Object.keys(node).forEach(key => {
+		if (key === 'parent' || key === 'program' || key === 'keys' || key === '__wrapped') return;
+		if (Array.isArray(node[key])) {
+			obj[key] = node[key].map(toJSON);
+		} else if (node[key] && typeof node[key].toJSON === 'function') {
+			obj[key] = node[key].toJSON();
+		} else {
+			obj[key] = node[key];
+		}
+	});
+
+	return obj;
+}
+
 export default class Node {
 	ancestor(level) {
 		let node = this;
