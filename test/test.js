@@ -1,11 +1,6 @@
 var path = require('path');
 var fs = require('fs');
-var rimraf = require('rimraf');
-var child_process = require('child_process');
 var assert = require('assert');
-var glob = require('glob');
-var SourceMapConsumer = require('source-map').SourceMapConsumer;
-var getLocation = require('./utils/getLocation.js');
 var buble = require('..');
 
 require('source-map-support').install();

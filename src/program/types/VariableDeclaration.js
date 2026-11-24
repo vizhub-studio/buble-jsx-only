@@ -1,6 +1,4 @@
 import Node from '../Node.js';
-import destructure from '../../utils/destructure.js';
-import { loopStatement } from '../../utils/patterns.js';
 
 export default class VariableDeclaration extends Node {
 	initialise(transforms) {
@@ -9,11 +7,8 @@ export default class VariableDeclaration extends Node {
 	}
 
 	transpile(code, transforms) {
-		const i0 = this.getIndentation();
-		let kind = this.kind;
-
-    this.declarations.forEach(declarator => {
-      declarator.transpile(code, transforms);
-    });
+		this.declarations.forEach(declarator => {
+			declarator.transpile(code, transforms);
+		});
 	}
 }

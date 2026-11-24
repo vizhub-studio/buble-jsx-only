@@ -1,6 +1,5 @@
 import Node from '../Node.js';
 import isReference from '../../utils/isReference.js';
-import { loopStatement } from '../../utils/patterns.js';
 
 export default class Identifier extends Node {
 	findScope(functionScope) {
@@ -15,7 +14,7 @@ export default class Identifier extends Node {
 		return this.parent.findScope(functionScope);
 	}
 
-	initialise(transforms) {
+	initialise() {
 		if (this.isLabel()) {
 			return;
 		}
