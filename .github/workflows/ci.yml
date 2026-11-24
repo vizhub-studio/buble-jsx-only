@@ -1,19 +1,38 @@
 name: CI
-
-on: [push, pull_request]
-
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+permissions:
+  contents: read
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 20
     strategy:
+      fail-fast: false
       matrix:
-        node: ["10", "12", "14"]
-
+        node: [22, 24]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      - run: npm install
-      - run: npm test
+          cache: npm
+      - name: Use HTTPS for public GitHub dependencies
+        run: |
+          git config --global --add url.https://github.com/.insteadOf ssh://git@github.com/
+          git config --global --add url.https://github.com/.insteadOf git@github.com:
+      - name: Install dependencies
+        id: install
+        run: npm ci --ignore-scripts
+      - name: ESLint
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run lint
+      - name: Tests
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm test
+      - name: Register integration test
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:register
